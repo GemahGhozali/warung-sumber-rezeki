@@ -2,7 +2,7 @@ import { SuccessResponse, ErrorResponse, ErrorFields, ErrorCodeKeys, ErrorCode }
 
 type SendSuccessResponseParams<T> = {
   message: string;
-  data: T;
+  data?: T;
 };
 
 type SendErrorResponseParams = {
@@ -12,7 +12,7 @@ type SendErrorResponseParams = {
 };
 
 export function sendSuccessResponse<T = unknown>({ message, data }: SendSuccessResponseParams<T>): SuccessResponse<T> {
-  return { success: true, message, data };
+  return { success: true, message, ...(data && { data }) };
 }
 
 export function sendErrorResponse({ message, code, fields }: SendErrorResponseParams): ErrorResponse {
