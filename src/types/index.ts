@@ -19,7 +19,7 @@ export type ErrorCodeKeys = keyof typeof ErrorCode;
 export type SuccessResponse<T = unknown> = {
   success: true;
   message: string;
-  data: T;
+  data?: T;
 };
 
 export type ErrorResponse = {
