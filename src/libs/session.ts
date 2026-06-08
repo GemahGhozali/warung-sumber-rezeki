@@ -1,22 +1,24 @@
 import { cookies } from "next/headers";
+import { Role } from "@/generated/prisma/enums";
 import { SignJWT, jwtVerify } from "jose";
 
 type UserPayload = {
   id: string;
   username: string;
-  role: string;
+  role: Role;
 };
 
 export const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 export const COOKIE_NAME = "auth_session";
 
-export async function encrypt(payload: UserPayload) {
+export async function encrypt(payload: UserPayload): Promise<string> {
   return await new SignJWT(payload).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setExpirationTime("24h").sign(JWT_SECRET);
 }
 
-export async function decrypt(token: string) {
+export async function decrypt(token: string): Promise<UserPayload | null> {
   try {
-    return await jwtVerify(token, JWT_SECRET, { algorithms: ["HS256"] });
+    const { payload } = await jwtVerify(token, JWT_SECRET, { algorithms: ["HS256"] });
+    return payload as UserPayload;
   } catch (error) {
     return null;
   }
@@ -37,7 +39,7 @@ export async function setSessionCookie(userPayload: UserPayload) {
   });
 }
 
-export async function getSession() {
+export async function getSession(): Promise<UserPayload | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) return null;
