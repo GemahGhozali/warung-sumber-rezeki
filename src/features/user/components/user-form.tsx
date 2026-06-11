@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import ImageUploader from "@/component/image-uploader";
-import { RoleSelections } from "@/features/user/components/role-selections";
-import { useCreateUserForm, useEditUserForm } from "@/features/user/hooks";
+import { RoleSelections } from "./role-selections";
+import { useCreateUserForm, useEditUserForm } from "../hooks";
 import { EditUserInput } from "../schemas";
 
 interface UserFormProps {
