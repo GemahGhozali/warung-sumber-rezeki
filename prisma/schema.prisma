@@ -84,11 +84,6 @@ model Shift {
   id                String        @id @default(uuid())
   status            ShiftStatus   @default(OPEN)
   initialCapital    Int
-  totalTransactions Int           @default(0)
-  totalChanges      Int           @default(0)
-  totalIncomes      Int           @default(0)
-  totalOutcomes     Int           @default(0)
-  expectedCash      Int           @default(0)
   actualCash        Int?
   cashDifference    Int?
   openingTime       DateTime      @default(now())
