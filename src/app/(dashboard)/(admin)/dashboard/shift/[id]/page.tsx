@@ -75,13 +75,6 @@ export default async function ShiftDetailsPage({ params }: ShiftDetailsPageProps
             <span>{formatCurrency(shift.totalOutcomes)}</span>
           </p>
         </div>
-        <div className="flex justify-between">
-          <p className="text-sm text-neutral-500 font-semibold">Total Kembalian</p>
-          <p className={`text-sm font-semibold flex items-center gap-1 ${shift.totalChanges > 0 ? "text-red-500" : "text-neutral-500"}`}>
-            {shift.totalChanges > 0 && <Minus size={16} strokeWidth={2.25} />}
-            <span>{formatCurrency(shift.totalChanges)}</span>
-          </p>
-        </div>
         <hr className="border-neutral-300" />
         <div className="flex justify-between">
           <p className="text-sm text-neutral-500 font-semibold">Kas Yang Tercatat</p>
