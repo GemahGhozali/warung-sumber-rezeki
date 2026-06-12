@@ -41,7 +41,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // Proteksi Khusus Role Admin
-  if (nextUrl.pathname.startsWith("/admin")) {
+  if (nextUrl.pathname.startsWith("/dashboard")) {
     if (userSession?.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/home", request.url));
     }
@@ -51,5 +51,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/home/:path*", "/kasir/:path*", "/transaksi/:path*", "/arus-kas/:path*", "/admin/:path*"],
+  matcher: ["/", "/home/:path*", "/kasir/:path*", "/transaksi/:path*", "/arus-kas/:path*", "/dashboard/:path*"],
 };
