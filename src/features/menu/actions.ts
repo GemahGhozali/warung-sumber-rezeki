@@ -35,12 +35,12 @@ export async function createMenuAction(prevState: ServerActionResponse<MenuInput
     const image = await uploadFile(uploadedImage);
     await prisma.menu.create({ data: { name, price, hpp, stock, categoryId: finalCategoryId, image } });
 
-    revalidatePath("/menu");
+    revalidatePath("/dashboard/menu");
   } catch (error) {
     return sendErrorResponse({ message: "Terjadi kesalahan pada server", code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/menu");
+  redirect("/dashboard/menu");
 }
 
 export async function editMenuAction(prevState: ServerActionResponse<MenuInput> | null, data: MenuInput): Promise<ServerActionResponse<MenuInput>> {
@@ -84,12 +84,12 @@ export async function editMenuAction(prevState: ServerActionResponse<MenuInput> 
 
     await prisma.menu.update({ where: { id }, data: { name, price, hpp, stock, categoryId: finalCategoryId, image } });
 
-    revalidatePath("/menu");
+    revalidatePath("/dashboard/menu");
   } catch (error) {
     return sendErrorResponse({ message: "Terjadi kesalahan pada server", code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/menu");
+  redirect("/dashboard/menu");
 }
 
 export async function deleteMenuAction(id: string): Promise<ServerActionResponse<Menu>> {
@@ -101,7 +101,7 @@ export async function deleteMenuAction(id: string): Promise<ServerActionResponse
 
     await prisma.menu.delete({ where: { id } });
 
-    revalidatePath("/menu");
+    revalidatePath("/dashboard/menu");
 
     return sendSuccessResponse({ message: "Menu berhasil dihapus" });
   } catch (error) {
