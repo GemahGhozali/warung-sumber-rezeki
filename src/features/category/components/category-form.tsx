@@ -27,7 +27,7 @@ export default function CategoryForm({ category }: EditCategoryFormProps) {
       <button type="submit" disabled={isPending} className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 font-medium cursor-pointer">
         Edit Kategori
       </button>
-      <Link href="/category" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
+      <Link href="/dashboard/menu/category" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
         Batalkan
       </Link>
       {!state?.success && state?.message && (

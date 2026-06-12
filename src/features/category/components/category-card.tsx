@@ -27,7 +27,7 @@ export default function CategoryCard({ category }: CategoryCardProps) {
         <p className="text-neutral-500 text-sm">{category.totalMenu} Total Menu</p>
       </div>
       <div className="flex gap-2">
-        <Link href={`/category/${category.id}/edit`} className="size-9 grid place-content-center bg-teal-50 text-teal-600 rounded-lg">
+        <Link href={`/dashboard/menu/category/${category.id}/edit`} className="size-9 grid place-content-center bg-teal-50 text-teal-600 rounded-lg">
           <Edit size={16} />
         </Link>
         <button className="size-9 grid place-content-center bg-red-50 text-red-600 rounded-lg cursor-pointer" onClick={handleDelete}>
