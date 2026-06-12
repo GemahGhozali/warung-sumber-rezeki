@@ -7,7 +7,7 @@ export default async function CategoryPage() {
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-4">Category Page</h1>
       <CategoryList />
-      <Link href="/category/create" className="fixed bottom-4 right-4 bg-teal-600 text-white rounded-full font-medium size-10 grid place-content-center">
+      <Link href="/dashboard/menu/category/create" className="fixed bottom-4 right-4 bg-teal-600 text-white rounded-full font-medium size-10 grid place-content-center">
         <Plus />
       </Link>
     </div>
