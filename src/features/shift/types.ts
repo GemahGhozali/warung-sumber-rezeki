@@ -1,5 +1,5 @@
-import { getActiveShift, getActiveShiftCashflow, getAllShifts } from "./queries";
+import { getActiveShift, getActiveShiftCashflowHistory, getAllShifts } from "./queries";
 
 export type ActiveShift = NonNullable<Awaited<ReturnType<typeof getActiveShift>>>;
 export type ShiftHistory = NonNullable<Awaited<ReturnType<typeof getAllShifts>>>[number];
-export type ShiftCashflow = NonNullable<Awaited<ReturnType<typeof getActiveShiftCashflow>>>;
+export type CashflowHistory = NonNullable<Awaited<ReturnType<typeof getActiveShiftCashflowHistory>>>[number];
