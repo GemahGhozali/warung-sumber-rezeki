@@ -29,7 +29,7 @@ export default function MenuCard({ menu }: MenuCardProps) {
         <p className="text-neutral-500 text-sm">{menu.price}</p>
       </div>
       <div className="flex gap-2 ml-auto">
-        <Link href={`/menu/${menu.id}/edit`} className="size-9 grid place-content-center bg-teal-50 text-teal-600 rounded-lg">
+        <Link href={`/dashboard/menu/${menu.id}/edit`} className="size-9 grid place-content-center bg-teal-50 text-teal-600 rounded-lg">
           <Edit size={16} />
         </Link>
         <button className="size-9 grid place-content-center bg-red-50 text-red-600 rounded-lg cursor-pointer" onClick={handleDelete}>
