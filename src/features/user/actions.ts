@@ -32,12 +32,12 @@ export async function createUserAction(prevState: ServerActionResponse<CreateUse
     const hashedPassword = await hashPassword(password);
     await prisma.user.create({ data: { name, username, password: hashedPassword, role, image } });
 
-    revalidatePath("/user");
+    revalidatePath("/dashboard/user");
   } catch (error) {
     return sendErrorResponse({ message: "Terjadi kesalahan pada server", code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/user");
+  redirect("/dashboard/user");
 }
 
 export async function editUserAction(prevState: ServerActionResponse<EditUserInput> | null, data: EditUserInput): Promise<ServerActionResponse<EditUserInput>> {
@@ -78,12 +78,12 @@ export async function editUserAction(prevState: ServerActionResponse<EditUserInp
 
     await prisma.user.update({ where: { id }, data: { name, username, password, role, image } });
 
-    revalidatePath("/user");
+    revalidatePath("/dashboard/user");
   } catch (error) {
     return sendErrorResponse({ message: "Terjadi kesalahan pada server", code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/user");
+  redirect("/dashboard/user");
 }
 
 export async function deleteUserAction(id: string): Promise<ServerActionResponse<User>> {
@@ -95,7 +95,7 @@ export async function deleteUserAction(id: string): Promise<ServerActionResponse
 
     await prisma.user.delete({ where: { id } });
 
-    revalidatePath("/user");
+    revalidatePath("/dashboard/user");
 
     return sendSuccessResponse({ message: "Pengguna berhasil dihapus" });
   } catch (error) {
