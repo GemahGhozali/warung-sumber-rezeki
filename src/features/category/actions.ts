@@ -19,13 +19,13 @@ export async function createCategoryAction(prevState: ServerActionResponse<Categ
 
     await prisma.category.create({ data: { name, information } });
 
-    revalidatePath("/category");
+    revalidatePath("/dashboard/category");
   } catch (error) {
     console.log(error);
     return sendErrorResponse({ message: `Terjadi kesalahan pada server`, code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/category");
+  redirect("/dashboard/category");
 }
 
 export async function editCategoryAction(prevState: ServerActionResponse<CategoryInput> | null, data: CategoryInput): Promise<ServerActionResponse<CategoryInput>> {
@@ -45,13 +45,13 @@ export async function editCategoryAction(prevState: ServerActionResponse<Categor
 
     await prisma.category.update({ where: { id }, data: { name, information } });
 
-    revalidatePath("/category");
+    revalidatePath("/dashboard/category");
   } catch (error) {
     console.log(error);
     return sendErrorResponse({ message: `Terjadi kesalahan pada server`, code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/category");
+  redirect("/dashboard/category");
 }
 
 export async function deleteCategoryAction(prevState: ServerActionResponse<CategoryInput> | null, data: CategoryInput): Promise<ServerActionResponse<CategoryInput>> {
@@ -65,7 +65,7 @@ export async function deleteCategoryAction(prevState: ServerActionResponse<Categ
 
     await prisma.category.delete({ where: { id } });
 
-    revalidatePath("/category");
+    revalidatePath("/dashboard/category");
     return sendSuccessResponse({ message: "Kategori berhasil dihapus" });
   } catch (error) {
     console.log(error);
