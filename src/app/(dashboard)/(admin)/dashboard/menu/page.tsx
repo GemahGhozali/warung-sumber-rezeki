@@ -7,7 +7,7 @@ export default async function MenuPage() {
     <div className="p-4 space-y-4">
       <h1 className="text-2xl">Menu Page</h1>
       <MenuList />
-      <Link href="/menu/create" className="fixed bottom-4 right-4 bg-teal-600 text-white rounded-full font-medium size-10 grid place-content-center">
+      <Link href="/dashboard/menu/create" className="fixed bottom-4 right-4 bg-teal-600 text-white rounded-full font-medium size-10 grid place-content-center">
         <Plus />
       </Link>
     </div>
