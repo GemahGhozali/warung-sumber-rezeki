@@ -38,7 +38,7 @@ export function Modal({ ref, className = "", children }: ModalProps) {
   };
 
   return (
-    <dialog ref={modalRef} className="backdrop:bg-black/30 fixed top-1/2 translate-y-full left-1/2 -translate-x-1/2 z-50 bg-transparent w-full max-w-[430px]" onClick={handleCloseModal}>
+    <dialog ref={modalRef} className="backdrop:bg-black/30 fixed bottom-0 left-1/2 -translate-x-1/2 z-50 bg-transparent w-full max-w-[430px] h-fit my-0 mt-auto" onClick={handleCloseModal}>
       <div className={`mx-auto ${className}`}>{children}</div>
     </dialog>
   );
