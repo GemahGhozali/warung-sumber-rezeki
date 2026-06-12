@@ -46,7 +46,7 @@ export default function UserForm({ user }: UserFormProps) {
       <button type="submit" disabled={isPending} className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 font-medium cursor-pointer">
         {user ? "Edit Pengguna" : "Tambah Pengguna"}
       </button>
-      <Link href="/user" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
+      <Link href="/dashboard/user" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
         Batalkan
       </Link>
     </form>

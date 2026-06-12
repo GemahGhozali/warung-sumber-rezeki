@@ -32,7 +32,7 @@ export default function UserCard({ user }: UserCardProps) {
         </div>
       </div>
       <div className="flex gap-2 ml-auto">
-        <Link href={`/user/${user.id}/edit`} className="size-9 grid place-content-center bg-teal-50 text-teal-600 rounded-lg">
+        <Link href={`/dashboard/user/${user.id}/edit`} className="size-9 grid place-content-center bg-teal-50 text-teal-600 rounded-lg">
           <Edit size={16} />
         </Link>
         <button className="size-9 grid place-content-center bg-red-50 text-red-600 rounded-lg cursor-pointer" onClick={handleDelete}>
