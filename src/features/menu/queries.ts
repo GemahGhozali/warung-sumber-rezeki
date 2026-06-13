@@ -27,7 +27,6 @@ export async function getMenusForCashier() {
   try {
     const menus = await prisma.menu.findMany({
       select: { id: true, name: true, price: true, hpp: true, image: true, category: { select: { name: true } } },
-      orderBy: { name: "asc" },
     });
 
     return menus.map((menu) => ({ ...menu, category: menu.category?.name }));
