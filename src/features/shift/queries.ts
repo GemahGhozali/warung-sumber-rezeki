@@ -152,22 +152,20 @@ export async function getShiftById(id: string) {
 }
 
 export async function getShiftFinancials(shiftId: string) {
-  const [totalCashTransaction, totalTransferTransaction, totalPaymentsAndChangesAgg, incomeAgg, outcomeAgg] = await prisma.$transaction([
+  const [totalCashTransaction, totalTransferTransaction, totalTransactionPrice, income, outcome] = await prisma.$transaction([
     prisma.transaction.count({ where: { shiftId, paymentMethod: PaymentMethod.TUNAI } }),
     prisma.transaction.count({ where: { shiftId, paymentMethod: PaymentMethod.TRANSFER } }),
-    prisma.transaction.aggregate({ where: { shiftId }, _sum: { totalPayment: true, totalChange: true } }),
+    prisma.transaction.aggregate({ where: { shiftId }, _sum: { totalPrice: true } }),
     prisma.income.aggregate({ where: { shiftId }, _sum: { total: true } }),
     prisma.outcome.aggregate({ where: { shiftId }, _sum: { total: true } }),
   ]);
 
   const totalTransactions = totalCashTransaction + totalTransferTransaction;
-  const totalPayments = totalPaymentsAndChangesAgg._sum.totalPayment ?? 0;
-  const totalChanges = totalPaymentsAndChangesAgg._sum.totalChange ?? 0;
-  const extraIncome = incomeAgg._sum.total ?? 0;
-  const totalOutcomes = outcomeAgg._sum.total ?? 0;
+  const transactionIncome = totalTransactionPrice._sum.totalPrice ?? 0;
+  const extraIncome = income._sum.total ?? 0;
 
-  const netTransactionIncome = totalPayments - totalChanges;
-  const totalIncomes = netTransactionIncome + extraIncome;
+  const totalIncomes = transactionIncome + extraIncome;
+  const totalOutcomes = outcome._sum.total ?? 0;
 
   return { totalTransactions, totalCashTransaction, totalTransferTransaction, totalIncomes, totalOutcomes };
 }
