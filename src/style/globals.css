@@ -9,3 +9,11 @@
     font-family: var(--font-poppins);
   }
 }
+
+@utility scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
