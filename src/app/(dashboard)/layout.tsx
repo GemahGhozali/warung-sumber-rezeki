@@ -11,8 +11,8 @@ export default async function DashboardLayout({ children }: Readonly<{ children:
   const isShiftActive = await getActiveShiftId();
 
   return (
-    <div className="relative flex h-full flex-col">
-      <div className="flex-1 overflow-y-auto">
+    <div className="flex h-full flex-col">
+      <div className="flex-1 overflow-y-auto relative">
         <ShiftGate isShiftActive={Boolean(isShiftActive)}>{children}</ShiftGate>
       </div>
       <BottomNavigationBar role={session.role} />
