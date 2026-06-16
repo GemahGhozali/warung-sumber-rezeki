@@ -22,7 +22,7 @@ export default function CategoryTabFilters({ categories }: CategoryTabFiltersPro
   const activeStyle = "font-semibold text-teal-500 shadow-[inset_0_-3px_0_0_#14b8a6]";
 
   return (
-    <div className="overflow-x-auto whitespace-nowrap px-4 scrollbar-hidden">
+    <div className="bg-white overflow-x-auto whitespace-nowrap px-4 scrollbar-hidden shrink-0 border-b border-neutral-300">
       <div className="flex gap-8 w-max rounded-lg">
         <button type="button" className={`${baseStyle} ${!currentCategory ? activeStyle : ""}`} onClick={() => handleCategoryClick(null)}>
           Semua
