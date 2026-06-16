@@ -1,12 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import CartEmptyState from "@/features/kasir/components/cart-empty-state";
 import CartList from "@/features/kasir/components/cart-list";
-import CustomMenuModalButton from "@/features/kasir/components/custom-menu-modal-button";
 import OrderSummary from "@/features/kasir/components/order-summary";
-import { useCartStore } from "@/features/transaction/stores";
 import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
+import { useCartStore } from "@/features/transaction/stores";
 
 export default function CheckoutPage() {
   const { cart } = useCartStore();
@@ -20,7 +19,7 @@ export default function CheckoutPage() {
           <ChevronLeft />
         </Link>
         <h3 className="text-xl font-semibold">Detail Pemesanan</h3>
-        <CustomMenuModalButton />
+        <div className="size-10"></div>
       </div>
       <CartList />
       <OrderSummary />
