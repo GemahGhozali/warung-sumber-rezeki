@@ -8,7 +8,7 @@ export default async function LastTransactionHistory() {
   if (!transactions) return null;
   return (
     <>
-      <div className="flex justify-between items-end mb-4">
+      <div className="flex justify-between items-end mb-3">
         <div>
           <h4 className="text-xl font-semibold mt-8">Transaksi</h4>
           <p className="text-sm text-neutral-500">Riwayat transaksi terakhir</p>
