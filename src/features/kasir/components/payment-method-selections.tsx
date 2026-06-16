@@ -9,20 +9,22 @@ interface PaymentMethodSelectionsProps {
 export function PaymentMethodSelections({ register, errors }: PaymentMethodSelectionsProps) {
   return (
     <div className="space-y-2">
-      <label className="block font-semibold text-sm">
+      <label className="block font-semibold">
         Metode Pembayaran <span className="text-red-600">*</span>
       </label>
       <div className="grid grid-cols-2 gap-4">
         <label className="cursor-pointer">
           <input type="radio" value="TUNAI" className="sr-only peer" {...register("paymentMethod")} />
-          <div className="flex items-center justify-center gap-1.5 p-3 rounded-xl ring ring-neutral-300 text-neutral-500 peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-teal-600">
-            <p className="font-medium">💵 Tunai</p>
+          <div className="p-6 rounded-xl ring ring-neutral-300 text-neutral-500 peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-teal-600 relative overflow-hidden">
+            <p className="font-semibold text-xl">Tunai</p>
+            <img src="/images/cash.png" className="w-[90px] absolute right-0.5 -bottom-8" />
           </div>
         </label>
         <label className="cursor-pointer">
           <input type="radio" value="TRANSFER" className="sr-only peer" {...register("paymentMethod")} />
-          <div className="flex items-center justify-center gap-1.5 p-3 rounded-xl ring ring-neutral-300 text-neutral-500 peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-teal-600">
-            <p className="font-medium">📱 Transfer</p>
+          <div className="p-6 rounded-xl ring ring-neutral-300 text-neutral-500 peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-teal-600 relative overflow-hidden">
+            <p className="font-semibold text-xl">Transfer</p>
+            <img src="/images/transfer.png" className="w-[90px] absolute -right-3 -bottom-6" />
           </div>
         </label>
       </div>
