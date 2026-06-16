@@ -2,6 +2,7 @@
 
 import { RefObject } from "react";
 import { Modal, ModalHandle } from "@/component/modal";
+import { Box } from "@solar-icons/react-perf/BoldDuotone";
 import { useCustomMenuForm } from "@/features/transaction/hooks";
 
 interface CustomMenuModalProps {
@@ -23,12 +24,19 @@ export default function CustomMenuModal({ ref, onClose }: CustomMenuModalProps) 
 
   return (
     <Modal ref={ref} className="bg-white p-4 pt-6 rounded-t-2xl">
+      <div className="flex flex-col items-center mb-8">
+        <div className="size-20 bg-teal-100/60 grid place-content-center rounded-full text-4xl leading-none mb-4">
+          <Box size={40} color="#009689" />
+        </div>
+        <h5 className="text-xl font-semibold">Tambah Menu Custom</h5>
+        <p className="text-sm text-neutral-500">Masukkan nama, harga, serta HPP menu</p>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-1">
           <label className="block font-semibold">
             Nama Menu Custom <span className="text-red-600">*</span>
           </label>
-          <input type="text" {...register("menuName")} placeholder="Masukkan nama menu disini..." className="w-full py-2 px-3 rounded-lg border border-neutral-300" />
+          <input type="text" {...register("menuName")} placeholder="Masukkan nama menu custom disini..." className="w-full py-2 px-3 rounded-lg border border-neutral-300" />
           {errors.menuName && <small className="text-red-500 text-sm">{errors.menuName.message}</small>}
         </div>
 
