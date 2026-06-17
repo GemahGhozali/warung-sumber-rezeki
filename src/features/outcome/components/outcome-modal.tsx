@@ -1,9 +1,10 @@
 "use client";
 
+import OutcomeCategorySelections from "./outcome-category-selections";
 import { RefObject } from "react";
 import { Modal, ModalHandle } from "@/component/modal";
+import { RoundArrowRightUp } from "@solar-icons/react-perf/Bold";
 import { useCreateOutcomeForm } from "../hooks";
-import OutcomeCategorySelections from "./outcome-category-selections";
 
 interface OutcomeModalProps {
   ref: RefObject<ModalHandle | null>;
@@ -12,10 +13,20 @@ interface OutcomeModalProps {
 }
 
 export default function OutcomeModal({ currentCash, ref, onClose }: OutcomeModalProps) {
-  const { register, handleSubmit, errors, state, isPending } = useCreateOutcomeForm({ currentCash });
+  const { register, handleSubmit, errors, isPending } = useCreateOutcomeForm({
+    onSuccess: () => onClose(),
+    currentCash,
+  });
 
   return (
     <Modal ref={ref} className="bg-white p-4 rounded-t-2xl">
+      <div className="flex flex-col items-center mb-8">
+        <div className="size-20 bg-red-100 grid place-content-center rounded-full text-4xl leading-none mb-4">
+          <RoundArrowRightUp size={48} color="#e7000b" />
+        </div>
+        <h5 className="text-xl font-semibold mb-0.5">Catat Pengeluaran</h5>
+        <p className="text-sm text-neutral-500">Masukkan nominal serta kategori pengeluaran</p>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
         <div className="space-y-2">
           <label className="block font-semibold">
