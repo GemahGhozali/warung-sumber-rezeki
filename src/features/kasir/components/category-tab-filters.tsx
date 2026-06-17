@@ -1,10 +1,10 @@
 "use client";
 
-import { Category } from "@/generated/prisma/client";
+import { CategoryCatalog } from "@/features/category/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface CategoryTabFiltersProp {
-  categories: Pick<Category, "id" | "name">[];
+  categories: CategoryCatalog;
 }
 
 export default function CategoryTabFilters({ categories }: CategoryTabFiltersProp) {
