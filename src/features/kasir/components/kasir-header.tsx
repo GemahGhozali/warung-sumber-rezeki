@@ -1,9 +1,9 @@
 import { SearchBar } from "./search-bar";
-import { getCategoriesForCashier } from "@/features/category/queries";
+import { getAllCategories } from "@/features/category/queries";
 import CategoryTabFilters from "./category-tab-filters";
 
 export default async function KasirHeader() {
-  const categories = await getCategoriesForCashier();
+  const categories = await getAllCategories();
 
   return (
     <>
