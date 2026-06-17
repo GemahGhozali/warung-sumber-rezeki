@@ -1,11 +1,11 @@
+import { TransactionHistory } from "../types";
 import TransactionHistoryCard from "./transaction-history-card";
-import { getAllTransactionsInActiveShift } from "@/features/transaction/queries";
 
-export default async function TransactionHistory() {
-  const transactions = await getAllTransactionsInActiveShift();
+interface TransactionHistoriesProps {
+  transactions: TransactionHistory[];
+}
 
-  if (!transactions) return null;
-
+export default async function TransactionHistories({ transactions }: TransactionHistoriesProps) {
   return (
     <ul className="space-y-4">
       {transactions.map((transaction) => (
