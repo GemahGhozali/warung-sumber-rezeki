@@ -4,7 +4,7 @@ import { ArrowLeft, Plus } from "lucide-react";
 export default function CategoryHeader() {
   return (
     <>
-      <Link href="/dashboard/menu" className="grid place-content-center shrink-0 rounded-full size-10 border border-neutral-300 mb-6">
+      <Link href="/dashboard/menu" className="bg-white grid place-content-center shrink-0 rounded-full size-10 border border-neutral-300 mb-6">
         <ArrowLeft size={24} />
       </Link>
       <div className="flex justify-between items-end mb-4">
