@@ -5,6 +5,8 @@ import { WalletMoney } from "@solar-icons/react-perf/BoldDuotone";
 export default async function CashflowHistory() {
   const cashflowHistory = await getActiveShiftCashflowHistory();
 
+  if (cashflowHistory === null) return null;
+
   if (cashflowHistory.length === 0) {
     return (
       <div className="p-6 flex flex-col h-full justify-center items-center rounded-2xl">
