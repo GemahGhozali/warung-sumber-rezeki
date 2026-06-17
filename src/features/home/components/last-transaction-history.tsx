@@ -25,7 +25,7 @@ export default async function LastTransactionHistory() {
             <Notes size={32} color="#009689" />
           </div>
           <h6 className="font-semibold mb-0.5">Belum ada transaksi apapun</h6>
-          <p className="text-neutral-500 text-sm">Silahkan ke menu kasir untuk membuat transaksi</p>
+          <p className="text-neutral-500 text-sm">5 transaksi terakhir akan terlihat disini</p>
         </div>
       ) : (
         <ul className="space-y-4">

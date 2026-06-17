@@ -14,7 +14,7 @@ export default async function CashflowHistory() {
           <WalletMoney size={32} color="#009689" />
         </div>
         <h6 className="font-semibold mb-0.5">Uang kas masih utuh</h6>
-        <p className="text-neutral-500 text-sm">Belum ada mutasi kas apapun saat ini</p>
+        <p className="text-neutral-500 text-sm">Setiap mutasi kas akan terlihat disini</p>
       </div>
     );
   }

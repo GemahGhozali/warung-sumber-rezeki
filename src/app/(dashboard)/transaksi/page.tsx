@@ -1,8 +1,6 @@
-import Link from "next/link";
 import TransactionHistory from "@/features/transaction/components/transaction-history";
 import { Notes } from "@solar-icons/react-perf/BoldDuotone";
 import { getAllTransactionsInActiveShift } from "@/features/transaction/queries";
-import { Plus } from "lucide-react";
 
 export default async function TransaksiPage() {
   const transactions = await getAllTransactionsInActiveShift();
@@ -16,10 +14,7 @@ export default async function TransaksiPage() {
           <Notes size={32} color="#009689" />
         </div>
         <h6 className="font-semibold mb-0.5">Belum ada transaksi apapun</h6>
-        <p className="text-neutral-500 text-sm mb-3">Silahkan ke menu kasir untuk membuat transaksi</p>
-        <Link href="/kasir" className="flex items-center gap-1.5 bg-teal-600 p-1.5 pl-3 pr-1.5 text-white text-sm rounded-lg font-medium cursor-pointer leading-6">
-          Buat transaksi <Plus size={20} />
-        </Link>
+        <p className="text-neutral-500 text-sm mb-3">Semua transaksi akan terlihat disini</p>
       </div>
     );
   }
