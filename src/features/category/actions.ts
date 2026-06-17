@@ -19,13 +19,13 @@ export async function createCategoryAction(prevState: ServerActionResponse<Categ
 
     await prisma.category.create({ data: { name, information } });
 
-    revalidatePath("/dashboard/category");
+    revalidatePath("/dashboard/menu/category");
   } catch (error) {
     console.log(error);
     return sendErrorResponse({ message: `Terjadi kesalahan pada server`, code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/dashboard/category");
+  redirect("/dashboard/menu/category");
 }
 
 export async function editCategoryAction(prevState: ServerActionResponse<CategoryInput> | null, data: CategoryInput): Promise<ServerActionResponse<CategoryInput>> {
@@ -45,27 +45,23 @@ export async function editCategoryAction(prevState: ServerActionResponse<Categor
 
     await prisma.category.update({ where: { id }, data: { name, information } });
 
-    revalidatePath("/dashboard/category");
+    revalidatePath("/dashboard/menu/category");
   } catch (error) {
     console.log(error);
     return sendErrorResponse({ message: `Terjadi kesalahan pada server`, code: "INTERNAL_SERVER_ERROR" });
   }
 
-  redirect("/dashboard/category");
+  redirect("/dashboard/menu/category");
 }
 
-export async function deleteCategoryAction(prevState: ServerActionResponse<CategoryInput> | null, data: CategoryInput): Promise<ServerActionResponse<CategoryInput>> {
-  const id = data.id;
-
-  if (!id) return sendErrorResponse({ message: "ID Kategori wajib disertakan.", code: "VALIDATION_ERROR" });
-
+export async function deleteCategoryAction(id: string): Promise<ServerActionResponse<CategoryInput>> {
   try {
     const categoryExists = await prisma.category.findUnique({ where: { id } });
     if (!categoryExists) return sendErrorResponse({ message: "Kategori tidak ditemukan.", code: "NOT_FOUND" });
 
     await prisma.category.delete({ where: { id } });
 
-    revalidatePath("/dashboard/category");
+    revalidatePath("/dashboard/menu/category");
     return sendSuccessResponse({ message: "Kategori berhasil dihapus" });
   } catch (error) {
     console.log(error);
