@@ -18,7 +18,7 @@ export default function MenuCardButton({ menu }: MenuCardButtonProps) {
 
   if (!item) {
     return (
-      <button className="flex items-center gap-1.5 bg-teal-600 p-1.5 pl-3 pr-1.5 text-white text-sm rounded-lg font-medium cursor-pointer" onClick={handleAddItem}>
+      <button className="flex items-center gap-1.5 bg-teal-600 p-1.5 pl-3 pr-1.5 text-white text-sm leading-6 rounded-lg font-medium cursor-pointer" onClick={handleAddItem}>
         Tambah <Plus size={16} />
       </button>
     );
