@@ -11,11 +11,11 @@ interface UserFormProps {
 }
 
 export default function UserForm({ user }: UserFormProps) {
-  const { register, handleSubmit, setValue, watch, errors, state, isPending } = user ? useEditUserForm({ userData: user }) : useCreateUserForm();
+  const { register, handleSubmit, setValue, watch, errors, isPending } = user ? useEditUserForm({ userData: user }) : useCreateUserForm();
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 space-y-6">
-      <ImageUploader label="Foto Profil" fieldName="image" setValue={setValue} watch={watch} error={errors?.image?.message} imagePlaceholder="/images/avatar-placeholder.png" />
+    <form onSubmit={handleSubmit} className="p-4 space-y-6 h-full flex flex-col">
+      <ImageUploader label="Foto Profil (Opsional)" fieldName="image" setValue={setValue} watch={watch} error={errors?.image?.message} imagePlaceholder="/images/avatar-placeholder.png" />
 
       <div className="space-y-1">
         <label className="block font-semibold">
@@ -43,12 +43,14 @@ export default function UserForm({ user }: UserFormProps) {
 
       <RoleSelections register={register} errors={errors} />
 
-      <button type="submit" disabled={isPending} className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 font-medium cursor-pointer">
-        {user ? "Edit Pengguna" : "Tambah Pengguna"}
-      </button>
-      <Link href="/dashboard/user" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
-        Batalkan
-      </Link>
+      <div className="space-y-4 mt-auto">
+        <button type="submit" disabled={isPending} className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 font-medium cursor-pointer">
+          {user ? "Edit Pengguna" : "Tambah Pengguna"}
+        </button>
+        <Link href="/dashboard/user" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
+          Batalkan
+        </Link>
+      </div>
     </form>
   );
 }
