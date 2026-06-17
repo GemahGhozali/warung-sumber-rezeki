@@ -4,7 +4,7 @@ import { SignJWT, jwtVerify } from "jose";
 
 type UserPayload = {
   id: string;
-  username: string;
+  name: string;
   role: Role;
 };
 
