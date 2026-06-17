@@ -4,7 +4,12 @@ import { useActionState, startTransition } from "react";
 import { OutcomeSchema, OutcomeFormInput, OutcomeInput } from "./schemas";
 import { createOutcomeAction } from "./actions";
 
-export function useCreateOutcomeForm({ currentCash }: { currentCash: number }) {
+interface UseCreateOutcomeFormProps {
+  currentCash: number;
+  onSuccess?: () => void;
+}
+
+export function useCreateOutcomeForm({ currentCash, onSuccess }: UseCreateOutcomeFormProps) {
   const {
     register,
     handleSubmit,
@@ -35,6 +40,7 @@ export function useCreateOutcomeForm({ currentCash }: { currentCash: number }) {
     startTransition(() => {
       formAction(data as OutcomeInput);
       reset();
+      if (onSuccess) onSuccess();
     });
   };
 
