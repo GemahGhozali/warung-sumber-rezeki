@@ -1,6 +1,6 @@
-import { Crown, User } from "lucide-react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { CreateUserInput } from "../schemas";
+import { Crown, User } from "@solar-icons/react-perf/BoldDuotone";
 
 interface RoleSelectionsProps {
   register: UseFormRegister<CreateUserInput>;
@@ -17,7 +17,7 @@ export function RoleSelections({ register, errors }: RoleSelectionsProps) {
         <label className="cursor-pointer">
           <input type="radio" value="KASIR" className="sr-only peer" {...register("role")} />
           <div className="flex items-center justify-center gap-1.5 p-3 rounded-xl ring ring-neutral-300 text-neutral-500 peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-teal-600">
-            <User size={20} strokeWidth={2.25} />
+            <User size={20} />
             <p className="font-medium">Kasir</p>
           </div>
         </label>
