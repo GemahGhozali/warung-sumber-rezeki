@@ -1,15 +1,14 @@
-import Link from "next/link";
 import MenuList from "@/features/menu/components/menu-list";
-import { Plus } from "lucide-react";
+import MenuHeader from "@/features/menu/components/menu-header";
+import { getAllMenus } from "@/features/menu/queries";
 
 export default async function MenuPage() {
+  const menus = await getAllMenus();
+
   return (
-    <div className="p-4 space-y-4">
-      <h1 className="text-2xl">Menu Page</h1>
-      <MenuList />
-      <Link href="/dashboard/menu/create" className="fixed bottom-4 right-4 bg-teal-600 text-white rounded-full font-medium size-10 grid place-content-center">
-        <Plus />
-      </Link>
+    <div className="p-4 h-full flex flex-col">
+      <MenuHeader />
+      <MenuList menus={menus} />
     </div>
   );
 }
