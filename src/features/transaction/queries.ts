@@ -47,7 +47,14 @@ export async function getTransactionById(id: string) {
         totalChange: true,
         user: { select: { name: true } },
         transactionDetails: {
-          select: { id: true, menuName: true, price: true, quantity: true, subtotal: true },
+          select: {
+            id: true,
+            menuName: true,
+            price: true,
+            quantity: true,
+            subtotal: true,
+            menu: { select: { image: true } },
+          },
         },
         _count: {
           select: { transactionDetails: true },
@@ -56,6 +63,11 @@ export async function getTransactionById(id: string) {
     });
 
     if (!transaction) return null;
+
+    const transactionDetails = transaction.transactionDetails.map((details) => {
+      const { menu, ...transactionDetail } = details;
+      return { ...transactionDetail, image: menu?.image };
+    });
 
     return {
       id: transaction.id,
@@ -66,7 +78,7 @@ export async function getTransactionById(id: string) {
       totalPrice: transaction.totalPrice,
       totalPayment: transaction.totalPayment,
       totalChange: transaction.totalChange,
-      transactionDetails: transaction.transactionDetails,
+      transactionDetails,
     };
   } catch (error) {
     console.error(error);
