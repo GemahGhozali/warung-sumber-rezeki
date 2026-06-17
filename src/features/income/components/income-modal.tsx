@@ -1,9 +1,10 @@
 "use client";
 
+import IncomeCategorySelections from "./income-category-selections";
 import { RefObject } from "react";
 import { Modal, ModalHandle } from "@/component/modal";
+import { RoundArrowLeftDown } from "@solar-icons/react-perf/Bold";
 import { useCreateIncomeForm } from "../hooks";
-import IncomeCategorySelections from "./income-category-selections";
 
 interface IncomeModalProps {
   ref: RefObject<ModalHandle | null>;
@@ -11,10 +12,19 @@ interface IncomeModalProps {
 }
 
 export default function IncomeModal({ ref, onClose }: IncomeModalProps) {
-  const { register, handleSubmit, errors, state, isPending } = useCreateIncomeForm();
+  const { register, handleSubmit, errors, isPending } = useCreateIncomeForm({
+    onSuccess: () => onClose(),
+  });
 
   return (
-    <Modal ref={ref} className="bg-white p-4 rounded-t-2xl">
+    <Modal ref={ref} className="bg-white p-4 pt-6 rounded-t-2xl">
+      <div className="flex flex-col items-center mb-8">
+        <div className="size-20 bg-green-100 grid place-content-center rounded-full text-4xl leading-none mb-4">
+          <RoundArrowLeftDown size={48} color="#00c950" />
+        </div>
+        <h5 className="text-xl font-semibold mb-0.5">Catat Pemasukan</h5>
+        <p className="text-sm text-neutral-500">Masukkan nominal serta kategori pemasukan</p>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
         <div className="space-y-2">
           <label className="block font-semibold">
