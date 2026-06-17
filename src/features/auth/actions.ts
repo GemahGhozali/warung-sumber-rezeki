@@ -28,7 +28,7 @@ export async function loginAction(prevState: ServerActionResponse<LoginInput> | 
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) return sendErrorResponse({ message: "Username atau password salah", code: "INVALID_CREDENTIALS" });
 
-    await setSessionCookie({ id: user.id, username: user.username, role: user.role });
+    await setSessionCookie({ id: user.id, name: user.name, role: user.role });
   } catch (error) {
     return sendErrorResponse({ message: "Terjadi kesalahan pada server", code: "INTERNAL_SERVER_ERROR" });
   }
