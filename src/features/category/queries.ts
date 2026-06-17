@@ -29,12 +29,3 @@ export async function getCategoryById(id: string) {
     throw new Error("Gagal mendapatkan data kategori");
   }
 }
-
-export async function getCategoriesForCashier() {
-  try {
-    return await prisma.category.findMany({ select: { id: true, name: true }, orderBy: { name: "asc" } });
-  } catch (error) {
-    console.error(error);
-    throw new Error("Gagal mendapatkan data kategori");
-  }
-}
