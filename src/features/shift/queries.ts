@@ -74,7 +74,7 @@ export async function getActiveShiftCashflowHistory() {
   try {
     const shiftId = await getActiveShiftId();
 
-    if (!shiftId) throw new Error("Tidak ada shift aktif saat ini");
+    if (!shiftId) return null;
 
     const [transactions, incomes, outcomes] = await Promise.all([
       // Mendapatkan semua data transaksi
