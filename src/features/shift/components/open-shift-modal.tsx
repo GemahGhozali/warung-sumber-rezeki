@@ -3,17 +3,26 @@
 import { RefObject } from "react";
 import { Modal, ModalHandle } from "@/component/modal";
 import { useOpenShiftForm } from "../hooks";
+import { getCurrentDaytime } from "@/utils/daytime";
 
 interface OpenShiftModalProps {
   ref: RefObject<ModalHandle | null>;
   onClose: () => void;
+  userName: string;
 }
 
-export default function OpenShiftModal({ ref, onClose }: OpenShiftModalProps) {
-  const { register, handleSubmit, errors, state, isPending } = useOpenShiftForm();
+export default function OpenShiftModal({ ref, onClose, userName }: OpenShiftModalProps) {
+  const { register, handleSubmit, errors, isPending } = useOpenShiftForm();
 
   return (
-    <Modal ref={ref} className="bg-white p-4 rounded-t-2xl">
+    <Modal ref={ref} className="bg-white p-4 pt-6 rounded-t-2xl">
+      <div className="flex flex-col items-center mb-8 text-center">
+        <img src="/images/store-illustration.png" className="size-[100px] mb-4" />
+        <h5 className="text-xl font-semibold mb-0.5">
+          Selamat {getCurrentDaytime()}, {userName} 🙌
+        </h5>
+        <p className="text-sm text-neutral-500">Silahkan buka toko dengan cara memasukkan modal awal sebelum memulai operasional</p>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4 text-left">
         <div className="space-y-2">
           <label className="block font-semibold">

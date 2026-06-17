@@ -4,7 +4,11 @@ import { useRef } from "react";
 import { ModalHandle } from "@/component/modal";
 import OpenShiftModal from "./open-shift-modal";
 
-export default function ShiftEmptyState() {
+interface ShiftEmptyStateProps {
+  userName: string;
+}
+
+export default function ShiftEmptyState({ userName }: ShiftEmptyStateProps) {
   const openShiftModalRef = useRef<ModalHandle>(null);
   const handleOpenModal = () => openShiftModalRef.current?.openModal();
   const handleCloseModal = () => openShiftModalRef.current?.closeModal();
@@ -17,7 +21,7 @@ export default function ShiftEmptyState() {
       <button type="button" className="bg-teal-600 text-white rounded-lg px-4 py-2 font-medium cursor-pointer" onClick={handleOpenModal}>
         Buka Toko Sekarang
       </button>
-      <OpenShiftModal ref={openShiftModalRef} onClose={handleCloseModal} />
+      <OpenShiftModal ref={openShiftModalRef} onClose={handleCloseModal} userName={userName} />
     </div>
   );
 }
