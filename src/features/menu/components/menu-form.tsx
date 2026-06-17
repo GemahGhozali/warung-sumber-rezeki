@@ -4,20 +4,20 @@ import Link from "next/link";
 import ImageUploader from "@/component/image-uploader";
 import CategorySelections from "./category-selections";
 import { MenuInput } from "../schemas";
+import { CategoryCatalog } from "@/features/category/types";
 import { useCreateMenuForm, useEditMenuForm } from "../hooks";
-import { Category } from "@/generated/prisma/client";
 
 interface MenuFormProps {
-  categories: Category[];
+  categories: CategoryCatalog;
   menu?: MenuInput;
 }
 
 export default function MenuForm({ categories, menu }: MenuFormProps) {
-  const { register, handleSubmit, setValue, watch, errors, state, isPending } = menu ? useEditMenuForm({ menuData: menu }) : useCreateMenuForm();
+  const { register, handleSubmit, setValue, watch, errors, isPending } = menu ? useEditMenuForm({ menuData: menu }) : useCreateMenuForm();
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 space-y-6">
-      <ImageUploader label="Foto Menu" fieldName="image" setValue={setValue} watch={watch} error={errors?.image?.message} imagePlaceholder="/images/menu-placeholder.png" />
+    <form onSubmit={handleSubmit} className="p-4 space-y-6 h-full flex flex-col">
+      <ImageUploader label="Foto Menu (Opsional)" fieldName="image" setValue={setValue} watch={watch} error={errors?.image?.message} imagePlaceholder="/images/menu-placeholder.png" />
 
       <div className="space-y-1">
         <label className="block font-semibold">
@@ -53,12 +53,14 @@ export default function MenuForm({ categories, menu }: MenuFormProps) {
 
       <CategorySelections categories={categories} register={register} errors={errors} />
 
-      <button type="submit" disabled={isPending} className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 font-medium cursor-pointer">
-        {menu ? "Edit Menu" : "Tambah Menu"}
-      </button>
-      <Link href="/dashboard/menu" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
-        Batalkan
-      </Link>
+      <div className="space-y-4 mt-auto">
+        <button type="submit" disabled={isPending} className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 font-medium cursor-pointer">
+          {menu ? "Edit Menu" : "Tambah Menu"}
+        </button>
+        <Link href="/dashboard/menu" className="flex justify-center w-full bg-white text-neutral-500 border border-neutral-300 rounded-lg px-4 py-2 font-medium">
+          Batalkan
+        </Link>
+      </div>
     </form>
   );
 }
