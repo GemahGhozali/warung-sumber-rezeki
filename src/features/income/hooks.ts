@@ -1,11 +1,14 @@
-// src/features/outcome/hooks.ts
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useActionState, startTransition } from "react";
 import { IncomeSchema, IncomeFormInput, IncomeInput } from "./schemas";
 import { createIncomeAction } from "./actions";
 
-export function useCreateIncomeForm() {
+interface UseCreateIncomeFormProps {
+  onSuccess?: () => void;
+}
+
+export function useCreateIncomeForm({ onSuccess }: UseCreateIncomeFormProps = {}) {
   const {
     register,
     handleSubmit,
@@ -26,6 +29,7 @@ export function useCreateIncomeForm() {
     startTransition(() => {
       formAction(data as IncomeInput);
       reset();
+      if (onSuccess) onSuccess();
     });
   };
 
