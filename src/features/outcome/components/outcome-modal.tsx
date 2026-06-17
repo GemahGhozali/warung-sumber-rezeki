@@ -19,7 +19,7 @@ export default function OutcomeModal({ currentCash, ref, onClose }: OutcomeModal
   });
 
   return (
-    <Modal ref={ref} className="bg-white p-4 rounded-t-2xl">
+    <Modal ref={ref} className="bg-white p-4 pt-6 rounded-t-2xl">
       <div className="flex flex-col items-center mb-8">
         <div className="size-20 bg-red-100 grid place-content-center rounded-full text-4xl leading-none mb-4">
           <RoundArrowRightUp size={48} color="#e7000b" />
