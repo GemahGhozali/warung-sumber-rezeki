@@ -34,6 +34,7 @@ export function useCloseShiftForm() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<CloseShiftFormInput>({
     resolver: zodResolver(CloseShiftSchema),
@@ -41,6 +42,8 @@ export function useCloseShiftForm() {
       actualCash: 0,
     },
   });
+
+  const actualCash = Number(watch("actualCash")) || 0;
 
   const [state, formAction, isPending] = useActionState(closeShiftAction, null);
 
@@ -51,5 +54,5 @@ export function useCloseShiftForm() {
     });
   };
 
-  return { register, handleSubmit: handleSubmit(onSubmitForm), errors, state, isPending };
+  return { actualCash, register, handleSubmit: handleSubmit(onSubmitForm), errors, state, isPending };
 }
