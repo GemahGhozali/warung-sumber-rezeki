@@ -1,10 +1,12 @@
 import ShiftCard from "./shift-card";
 import { ClockCircle } from "@solar-icons/react-perf/BoldDuotone";
-import { getAllShifts } from "../queries";
+import { ShiftHistory } from "../types";
 
-export default async function ShiftList() {
-  const shifts = await getAllShifts();
+interface ShiftListProps {
+  shifts: ShiftHistory[];
+}
 
+export default function ShiftList({ shifts }: ShiftListProps) {
   if (shifts.length === 0) {
     return (
       <div className="grow flex flex-col justify-center items-center">
@@ -12,7 +14,7 @@ export default async function ShiftList() {
           <ClockCircle size={32} color="#009689" />
         </div>
         <h6 className="font-semibold mb-0.5">Belum ada shift apapun</h6>
-        <p className="text-neutral-500 text-sm">Silahkan buka toko untuk memulai sesi shift</p>
+        <p className="text-neutral-500 text-sm">Riwayat shift akan terlihat disini</p>
       </div>
     );
   }
