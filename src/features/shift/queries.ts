@@ -1,26 +1,35 @@
 "use server";
 
+import moment from "moment";
 import prisma from "@/libs/prisma";
-import { ShiftStatus, PaymentMethod } from "@/generated/prisma/enums";
 import { getSession } from "@/libs/session";
 import { redirect } from "next/navigation";
 import { formatIncomeCategory, formatOutcomeCategory } from "@/utils/cashflow-category-formatter";
+import { ShiftStatus, PaymentMethod } from "@/generated/prisma/enums";
 
-export async function getAllShifts() {
+interface DateFilter {
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export async function getAllShifts(filter?: DateFilter) {
+  const startDate = filter?.startDate ? moment(filter.startDate).startOf("day").toDate() : moment().startOf("day").toDate();
+  const endDate = filter?.endDate ? moment(filter.endDate).endOf("day").toDate() : moment().endOf("day").toDate();
+
   try {
     const shifts = await prisma.shift.findMany({
-      select: { id: true, status: true, openingTime: true, closingTime: true, createdAt: true, user: { select: { name: true } } },
+      select: {
+        id: true,
+        status: true,
+        cashDifference: true,
+        createdAt: true,
+        user: { select: { name: true } },
+      },
       orderBy: { createdAt: "desc" },
+      where: { createdAt: { gte: startDate, lte: endDate } },
     });
 
-    return shifts.map((shift) => ({
-      id: shift.id,
-      status: shift.status,
-      openingTime: shift.openingTime,
-      closingTime: shift.closingTime,
-      createdAt: shift.createdAt,
-      employee: shift.user?.name ?? "Tidak Diketahui",
-    }));
+    return shifts.map((shift) => ({ ...shift, employee: shift.user?.name ?? "Tidak Diketahui" }));
   } catch (error) {
     console.error(error);
     throw new Error("Gagal mendapatkan data shift");
