@@ -2,23 +2,23 @@
 
 import Link from "next/link";
 import { Role } from "@/generated/prisma/enums";
-import { House, Printer, ScrollText, Wallet, Crown, LayoutGrid, User, Utensils, Clock } from "lucide-react";
+import { HomeAngle2, Printer2, Notes, WalletMoney, Crown, PieChart2, User, Box, ClockCircle } from "@solar-icons/react-perf/BoldDuotone";
 import { usePathname } from "next/navigation";
 
 const homeNavlinks = [
-  { href: "/home", label: "Home", icon: House },
-  { href: "/kasir", label: "Kasir", icon: Printer },
-  { href: "/transaksi", label: "Transaksi", icon: ScrollText },
-  { href: "/arus-kas", label: "Arus Kas", icon: Wallet },
+  { href: "/home", label: "Home", icon: HomeAngle2 },
+  { href: "/kasir", label: "Kasir", icon: Printer2 },
+  { href: "/transaksi", label: "Transaksi", icon: Notes },
+  { href: "/arus-kas", label: "Arus Kas", icon: WalletMoney },
   { href: "/dashboard", label: "Admin", icon: Crown },
 ];
 
 const dashboardNavlinks = [
-  { href: "/dashboard", label: "Overview", icon: LayoutGrid },
+  { href: "/dashboard", label: "Laporan", icon: PieChart2 },
   { href: "/dashboard/user", label: "Akun", icon: User },
-  { href: "/dashboard/menu", label: "Menu", icon: Utensils },
-  { href: "/dashboard/shift", label: "Shift", icon: Clock },
-  { href: "/home", label: "Home", icon: House },
+  { href: "/dashboard/menu", label: "Menu", icon: Box },
+  { href: "/dashboard/shift", label: "Shift", icon: ClockCircle },
+  { href: "/home", label: "Home", icon: HomeAngle2 },
 ];
 
 interface BottomNavigationBarProps {
@@ -40,16 +40,16 @@ export default function BottomNavigationBar({ role }: BottomNavigationBarProps) 
   if (hideBottomNavigationBar) return null;
 
   return (
-    <nav className="shrink-0 rounded-t-3xl bg-white shadow-sm border-t border-neutral-100">
+    <nav className="shrink-0 rounded-t-3xl bg-white shadow-[0px_0px_12px_0px_rgba(0,_0,_0,_0.1)] z-50">
       <menu className="flex py-5">
         {filteredNavlinks.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href;
 
           return (
-            <Link key={link.href} href={link.href} className="flex-1 flex flex-col items-center justify-center gap-2">
-              <Icon size={20} className={isActive ? "text-black" : "text-neutral-400"} />
-              <span className={isActive ? "text-sm font-semibold text-black" : "text-sm text-neutral-400"}>{link.label}</span>
+            <Link key={link.href} href={link.href} className={`flex-1 flex flex-col items-center justify-center gap-2 ${isActive ? "text-teal-600 font-semibold" : "text-neutral-400"}`}>
+              <Icon size={24} />
+              <span className="text-sm">{link.label}</span>
             </Link>
           );
         })}
