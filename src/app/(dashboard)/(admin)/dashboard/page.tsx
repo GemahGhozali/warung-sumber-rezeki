@@ -1,8 +1,9 @@
 import DateFilter from "@/component/date-filter";
+import ShiftAuditCashDifference from "@/features/dashboard/components/audit-cash-difference";
 import MetricCards from "@/features/dashboard/components/metric-cards";
 import OutcomeProportionChart from "@/features/dashboard/components/outcome-proportion-chart";
 import ProfitLossReports from "@/features/dashboard/components/profit-loss-reports";
-import { getProfitLossReport } from "@/features/dashboard/queries";
+import { getShiftAuditCashDifference, getProfitLossReport } from "@/features/dashboard/queries";
 
 interface DashboardPageProps {
   searchParams: Promise<{
@@ -19,7 +20,8 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     endDate: end ? new Date(end) : undefined,
   };
 
-  const report = await getProfitLossReport(filterDate);
+  const [report, shifts] = await Promise.all([getProfitLossReport(filterDate), getShiftAuditCashDifference(filterDate)]);
+
   return (
     <div className="p-4 space-y-4">
       <div>
@@ -30,6 +32,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <MetricCards report={report} />
       <ProfitLossReports report={report} />
       <OutcomeProportionChart dataBeban={report.detail.bebanPengeluaran} totalBeban={report.ringkasan.totalBebanOperasional} />
+      <ShiftAuditCashDifference shifts={shifts} />
     </div>
   );
 }

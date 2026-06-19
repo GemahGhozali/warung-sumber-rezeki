@@ -1,7 +1,6 @@
 import moment from "moment";
 import { ShiftAuditCashDifference } from "../types";
 import { CardTransfer } from "@solar-icons/react-perf/BoldDuotone";
-import { MinusCircle } from "@solar-icons/react-perf/Bold";
 import { formatCurrency } from "@/utils/format-currency";
 import Link from "next/link";
 
@@ -10,7 +9,6 @@ interface AuditCashDifferenceProps {
 }
 
 export default function AuditCashDifference({ shifts }: AuditCashDifferenceProps) {
-  console.log(shifts);
   return (
     <div className="p-4 bg-white border border-neutral-300 rounded-2xl">
       <h6 className="font-semibold">Audit Selisih Kas Shift</h6>
