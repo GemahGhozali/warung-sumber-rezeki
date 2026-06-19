@@ -3,24 +3,27 @@ import ShiftAuditCashDifference from "@/features/dashboard/components/audit-cash
 import MetricCards from "@/features/dashboard/components/metric-cards";
 import OutcomeProportionChart from "@/features/dashboard/components/outcome-proportion-chart";
 import ProfitLossReports from "@/features/dashboard/components/profit-loss-reports";
-import { getShiftAuditCashDifference, getProfitLossReport } from "@/features/dashboard/queries";
+import TransactionTrendChart from "@/features/dashboard/components/transaction-trend-chart";
+import { getShiftAuditCashDifference, getProfitLossReport, getTransactionVolumeTrend } from "@/features/dashboard/queries";
 
 interface DashboardPageProps {
   searchParams: Promise<{
+    type?: string;
     start?: string;
     end?: string;
   }>;
 }
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
-  const { start, end } = await searchParams;
+  const { type, start, end } = await searchParams;
 
   const filterDate = {
+    type: (type as "harian" | "mingguan" | "bulanan" | "custom") || "harian",
     startDate: start ? new Date(start) : undefined,
     endDate: end ? new Date(end) : undefined,
   };
 
-  const [report, shifts] = await Promise.all([getProfitLossReport(filterDate), getShiftAuditCashDifference(filterDate)]);
+  const [report, shifts, transactionTrend] = await Promise.all([getProfitLossReport(filterDate), getShiftAuditCashDifference(filterDate), getTransactionVolumeTrend(filterDate)]);
 
   return (
     <div className="p-4 space-y-4">
@@ -33,6 +36,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <ProfitLossReports report={report} />
       <OutcomeProportionChart dataBeban={report.detail.bebanPengeluaran} totalBeban={report.ringkasan.totalBebanOperasional} />
       <ShiftAuditCashDifference shifts={shifts} />
+      <TransactionTrendChart data={transactionTrend} />
     </div>
   );
 }
