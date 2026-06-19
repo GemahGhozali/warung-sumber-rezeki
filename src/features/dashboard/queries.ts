@@ -2,6 +2,7 @@ import moment from "moment";
 import prisma from "@/libs/prisma";
 
 interface DateFilter {
+  type: "harian" | "mingguan" | "bulanan" | "custom";
   startDate?: Date;
   endDate?: Date;
 }
@@ -118,5 +119,53 @@ export async function getShiftAuditCashDifference(filter?: DateFilter) {
   } catch (error) {
     console.error(error);
     throw new Error("Gagal memuat data laporan audit selisih shift");
+  }
+}
+
+export async function getTransactionVolumeTrend(filter: DateFilter) {
+  const startDate = filter.startDate ? moment(filter.startDate).startOf("day").toDate() : moment().startOf("day").toDate();
+  const endDate = filter.endDate ? moment(filter.endDate).endOf("day").toDate() : moment().endOf("day").toDate();
+
+  const isHarian = filter.type === "harian";
+  const timeFormat = isHarian ? "HH:00" : "YYYY-MM-DD";
+
+  try {
+    const transactions = await prisma.transaction.findMany({
+      where: { createdAt: { gte: startDate, lte: endDate } },
+      select: { id: true, createdAt: true },
+    });
+
+    const volumeMap = new Map<string, number>();
+
+    transactions.forEach((t) => {
+      const key = moment(t.createdAt).format(timeFormat);
+      const currentCount = volumeMap.get(key) || 0;
+      volumeMap.set(key, currentCount + 1);
+    });
+
+    const labels: string[] = [];
+    const currentCursor = moment(startDate);
+    const endCursor = moment(endDate);
+
+    if (isHarian) {
+      for (let i = 0; i < 24; i++) {
+        labels.push(moment().startOf("day").add(i, "hours").format("HH:00"));
+      }
+    } else {
+      while (currentCursor.isBefore(endCursor) || currentCursor.isSame(endCursor, "day")) {
+        labels.push(currentCursor.format("YYYY-MM-DD"));
+        currentCursor.add(1, "day");
+      }
+    }
+
+    const trendData = labels.map((label) => {
+      const count = volumeMap.get(label) || 0;
+      return { label: isHarian ? label : moment(label).format("DD MMM"), count };
+    });
+
+    return trendData;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Gagal memuat tren volume transaksi");
   }
 }
