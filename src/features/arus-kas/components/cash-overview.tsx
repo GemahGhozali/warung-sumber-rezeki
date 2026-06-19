@@ -35,7 +35,7 @@ export default async function CashOverview() {
           <div className="grid place-content-center size-[45px] bg-red-100 text-red-500 rounded-full mb-2">
             <RoundArrowRightUp size={26} />
           </div>
-          <p className={`font-semibold ${cashflow.totalIncomes > 0 ? "text-red-500 before:content-['-_']" : "text-black"}`}>{formatCurrency(cashflow.totalOutcomes)}</p>
+          <p className={`font-semibold ${cashflow.totalOutcomes > 0 ? "text-red-500 before:content-['-_']" : "text-black"}`}>{formatCurrency(cashflow.totalOutcomes)}</p>
           <p className="font-medium text-sm text-neutral-500 mb-3">Total Pengeluaran</p>
           <OutcomeModalButton currentCash={cashflow.expectedCash} />
         </div>
