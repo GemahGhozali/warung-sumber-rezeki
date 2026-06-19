@@ -1,12 +1,12 @@
 import moment from "moment";
 import prisma from "@/libs/prisma";
 
-interface ProfitLossFilter {
+interface DateFilter {
   startDate?: Date;
   endDate?: Date;
 }
 
-export async function getProfitLossReport(filter?: ProfitLossFilter) {
+export async function getProfitLossReport(filter?: DateFilter) {
   const startDate = filter?.startDate ? moment(filter.startDate).startOf("day").toDate() : moment().startOf("day").toDate();
 
   const endDate = filter?.endDate ? moment(filter.endDate).endOf("day").toDate() : moment().endOf("day").toDate();
@@ -89,5 +89,34 @@ export async function getProfitLossReport(filter?: ProfitLossFilter) {
   } catch (error) {
     console.error(error);
     throw new Error("Terjadi kesalahan saat mendapatkan laporan laba rugi");
+  }
+}
+
+export async function getShiftAuditCashDifference(filter?: DateFilter) {
+  const startDate = filter?.startDate ? moment(filter.startDate).startOf("day").toDate() : moment().startOf("day").toDate();
+  const endDate = filter?.endDate ? moment(filter.endDate).endOf("day").toDate() : moment().endOf("day").toDate();
+
+  try {
+    const shifts = await prisma.shift.findMany({
+      select: {
+        id: true,
+        cashDifference: true,
+        createdAt: true,
+        user: { select: { name: true, image: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      where: { createdAt: { gte: startDate, lte: endDate }, cashDifference: { not: 0 } },
+    });
+
+    return shifts.map((shift) => ({
+      id: shift.id,
+      employee: shift.user?.name ?? "Tidak Diketahui",
+      image: shift.user?.image,
+      shiftDate: shift.createdAt,
+      cashDifference: shift.cashDifference ?? 0,
+    }));
+  } catch (error) {
+    console.error(error);
+    throw new Error("Gagal memuat data laporan audit selisih shift");
   }
 }
