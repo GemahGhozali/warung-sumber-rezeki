@@ -1,6 +1,6 @@
 import moment from "moment";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, History } from "lucide-react";
 import { ClockCircle } from "@solar-icons/react-perf/BoldDuotone";
 import { ShiftDetails } from "../types";
 
@@ -28,7 +28,9 @@ export default function ShiftDetailsHeader({ shift }: ShiftDetailsHeaderProps) {
           <ArrowLeft size={24} />
         </Link>
         <h5 className="text-xl text-white font-semibold">Detail Riwayat Shift</h5>
-        <div className="size-10"></div>
+        <Link href={`/dashboard/shift/${shift.id}/history`} className="bg-white grid place-content-center shrink-0 rounded-full size-10 border border-neutral-300 text-neutral-500">
+          <History size={24} />
+        </Link>
       </div>
       <div className="flex flex-col items-center mb-8">
         <div className="size-20 bg-teal-100 grid place-content-center rounded-full text-4xl leading-none mb-4">
