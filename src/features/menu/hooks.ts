@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { startTransition, useActionState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +17,6 @@ export function useCreateMenuForm() {
       name: "",
       price: 0,
       hpp: 0,
-      stock: 0,
       categoryId: "",
       image: null,
     },
@@ -47,7 +45,6 @@ export function useEditMenuForm({ menuData }: { menuData: MenuInput }) {
       name: menuData.name,
       price: menuData.price,
       hpp: menuData.hpp,
-      stock: menuData.stock,
       categoryId: menuData.categoryId ?? "",
       image: menuData.image,
     },

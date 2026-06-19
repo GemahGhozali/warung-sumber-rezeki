@@ -21,7 +21,7 @@ export async function createMenuAction(prevState: ServerActionResponse<MenuInput
     });
   }
 
-  const { name, price, hpp, stock, categoryId, image: uploadedImage } = validation.data;
+  const { name, price, hpp, categoryId, image: uploadedImage } = validation.data;
 
   try {
     if (categoryId) {
@@ -33,7 +33,7 @@ export async function createMenuAction(prevState: ServerActionResponse<MenuInput
 
     const finalCategoryId = categoryId || null;
     const image = await uploadFile(uploadedImage);
-    await prisma.menu.create({ data: { name, price, hpp, stock, categoryId: finalCategoryId, image } });
+    await prisma.menu.create({ data: { name, price, hpp, categoryId: finalCategoryId, image } });
 
     revalidatePath("/dashboard/menu");
   } catch (error) {
@@ -53,7 +53,7 @@ export async function editMenuAction(prevState: ServerActionResponse<MenuInput> 
     });
   }
 
-  const { id, name, price, hpp, stock, categoryId, image: newImage } = validation.data;
+  const { id, name, price, hpp, categoryId, image: newImage } = validation.data;
 
   if (!id) return sendErrorResponse({ message: "ID menu wajib disertakan.", code: "VALIDATION_ERROR" });
 
@@ -82,7 +82,7 @@ export async function editMenuAction(prevState: ServerActionResponse<MenuInput> 
 
     const finalCategoryId = categoryId || null;
 
-    await prisma.menu.update({ where: { id }, data: { name, price, hpp, stock, categoryId: finalCategoryId, image } });
+    await prisma.menu.update({ where: { id }, data: { name, price, hpp, categoryId: finalCategoryId, image } });
 
     revalidatePath("/dashboard/menu");
   } catch (error) {

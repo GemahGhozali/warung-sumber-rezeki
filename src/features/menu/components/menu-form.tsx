@@ -43,14 +43,6 @@ export default function MenuForm({ categories, menu }: MenuFormProps) {
         {errors.hpp && <small className="text-red-500 text-sm">{errors.hpp.message}</small>}
       </div>
 
-      <div className="space-y-1">
-        <label className="block font-semibold">
-          Stok Menu <span className="text-red-600">*</span>
-        </label>
-        <input type="number" {...register("stock")} placeholder="Masukkan stok menu disini..." disabled={isPending} className="w-full py-2 px-3 rounded-lg border border-neutral-300" />
-        {errors.stock && <small className="text-red-500 text-sm">{errors.stock.message}</small>}
-      </div>
-
       <CategorySelections categories={categories} register={register} errors={errors} />
 
       <div className="space-y-4 mt-auto">
