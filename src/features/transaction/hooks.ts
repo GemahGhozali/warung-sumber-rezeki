@@ -63,9 +63,11 @@ export function useCheckoutForm() {
 
   useEffect(() => {
     if (state?.success) {
-      clearCart();
-      reset();
       router.push("/kasir");
+      setTimeout(() => {
+        clearCart();
+        reset();
+      }, 300);
     }
   }, [state, clearCart, reset]);
 
