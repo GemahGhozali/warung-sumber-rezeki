@@ -1,7 +1,7 @@
 "use client";
 
 import moment from "moment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 
@@ -12,36 +12,38 @@ export default function DateFilter() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const urlMode = (searchParams.get("type") as PeriodMode) || "harian";
   const initialStart = searchParams.get("start") || "";
   const initialEnd = searchParams.get("end") || "";
 
-  const getInitialMode = (): PeriodMode => {
-    if (!initialStart && !initialEnd) return "harian";
+  const [activeMode, setActiveMode] = useState<PeriodMode>(urlMode);
+  const [customStart, setCustomStart] = useState(urlMode === "custom" ? initialStart : "");
+  const [customEnd, setCustomEnd] = useState(urlMode === "custom" ? initialEnd : "");
 
-    const startOfWeek = moment().startOf("week").format("YYYY-MM-DD");
-    const endOfWeek = moment().endOf("week").format("YYYY-MM-DD");
-    if (initialStart === startOfWeek && initialEnd === endOfWeek) return "mingguan";
+  useEffect(() => {
+    setActiveMode(urlMode);
+    if (urlMode === "custom") {
+      setCustomStart(initialStart);
+      setCustomEnd(initialEnd);
+    }
+  }, [urlMode, initialStart, initialEnd]);
 
-    const startOfMonth = moment().startOf("month").format("YYYY-MM-DD");
-    const endOfMonth = moment().endOf("month").format("YYYY-MM-DD");
-    if (initialStart === startOfMonth && initialEnd === endOfMonth) return "bulanan";
-
-    return "custom";
-  };
-
-  const [activeMode, setActiveMode] = useState<PeriodMode>(getInitialMode());
-  const [customStart, setCustomStart] = useState(activeMode === "custom" ? initialStart : "");
-  const [customEnd, setCustomEnd] = useState(activeMode === "custom" ? initialEnd : "");
-
-  const updateUrlParams = (start?: string, end?: string) => {
+  const updateUrlParams = (mode: PeriodMode, start?: string, end?: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (start && end) {
-      params.set("start", start);
-      params.set("end", end);
-    } else {
+    if (mode === "harian") {
+      params.delete("type");
       params.delete("start");
       params.delete("end");
+    } else {
+      params.set("type", mode);
+      if (start && end) {
+        params.set("start", start);
+        params.set("end", end);
+      } else {
+        params.delete("start");
+        params.delete("end");
+      }
     }
 
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -51,20 +53,20 @@ export default function DateFilter() {
     setActiveMode(mode);
 
     if (mode === "harian") {
-      updateUrlParams();
+      updateUrlParams("harian");
     } else if (mode === "mingguan") {
-      const start = moment().startOf("week").format("YYYY-MM-DD");
-      const end = moment().endOf("week").format("YYYY-MM-DD");
-      updateUrlParams(start, end);
+      const start = moment().startOf("isoWeek").format("YYYY-MM-DD");
+      const end = moment().endOf("isoWeek").format("YYYY-MM-DD");
+      updateUrlParams("mingguan", start, end);
     } else if (mode === "bulanan") {
       const start = moment().startOf("month").format("YYYY-MM-DD");
       const end = moment().endOf("month").format("YYYY-MM-DD");
-      updateUrlParams(start, end);
+      updateUrlParams("bulanan", start, end);
     } else if (mode === "custom") {
       if (customStart && customEnd) {
-        updateUrlParams(customStart, customEnd);
+        updateUrlParams("custom", customStart, customEnd);
       } else {
-        updateUrlParams();
+        updateUrlParams("custom");
       }
     }
   };
@@ -72,15 +74,15 @@ export default function DateFilter() {
   const handleCustomDateChange = (type: "start" | "end", value: string) => {
     if (type === "start") {
       setCustomStart(value);
-      if (value && customEnd) updateUrlParams(value, customEnd);
+      if (value && customEnd) updateUrlParams("custom", value, customEnd);
     } else {
       setCustomEnd(value);
-      if (customStart && value) updateUrlParams(customStart, value);
+      if (customStart && value) updateUrlParams("custom", customStart, value);
     }
   };
 
   return (
-    <div className="p-3 space-y-3 bg-neutral-900 rounded-xl overflow-hidden">
+    <div className="p-2 space-y-2 bg-neutral-900 rounded-xl overflow-hidden">
       <div className="flex items-center gap-2">
         {(["harian", "mingguan", "bulanan", "custom"] as PeriodMode[]).map((mode) => (
           <button
@@ -93,6 +95,7 @@ export default function DateFilter() {
           </button>
         ))}
       </div>
+
       {activeMode === "custom" && (
         <div className="flex items-center gap-2 max-w-md animate-fadeIn pt-3 border-t border-neutral-600">
           <div className="flex-1 space-y-2">
