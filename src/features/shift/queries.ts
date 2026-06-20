@@ -123,10 +123,10 @@ export async function getShiftCashflowHistory(shiftId: string) {
       prisma.transaction.findMany({ where: { shiftId }, select: { id: true, totalPayment: true, paymentMethod: true, totalChange: true, createdAt: true } }),
 
       // Mendapatkan semua data pemasukan
-      prisma.income.findMany({ where: { shiftId }, select: { id: true, category: true, total: true, createdAt: true } }),
+      prisma.income.findMany({ where: { shiftId }, select: { id: true, category: true, information: true, total: true, createdAt: true } }),
 
       // Mendapatkan semua data pengeluaran
-      prisma.outcome.findMany({ where: { shiftId }, select: { id: true, category: true, total: true, createdAt: true } }),
+      prisma.outcome.findMany({ where: { shiftId }, select: { id: true, category: true, information: true, total: true, createdAt: true } }),
     ]);
 
     // Format transaksi
@@ -135,6 +135,7 @@ export async function getShiftCashflowHistory(shiftId: string) {
       amount: transaction.totalPayment - transaction.totalChange,
       type: "TRANSACTION" as const,
       label: `Transaksi ${transaction.paymentMethod === "TRANSFER" ? "Transfer" : "Tunai"}`,
+      information: "Tidak ada keterangan",
       createdAt: transaction.createdAt,
     }));
 
@@ -144,6 +145,7 @@ export async function getShiftCashflowHistory(shiftId: string) {
       amount: income.total,
       type: "INCOME" as const,
       label: formatIncomeCategory(income.category),
+      information: income.information ? income.information : "Tidak ada keterangan",
       createdAt: income.createdAt,
     }));
 
@@ -153,6 +155,7 @@ export async function getShiftCashflowHistory(shiftId: string) {
       amount: outcome.total,
       type: "OUTCOME" as const,
       label: formatOutcomeCategory(outcome.category),
+      information: outcome.information ? outcome.information : "Tidak ada keterangan",
       createdAt: outcome.createdAt,
     }));
 
