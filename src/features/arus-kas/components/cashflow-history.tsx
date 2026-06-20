@@ -1,11 +1,13 @@
 import CahsflowHistoryCard from "./cashflow-history-card";
-import { getActiveShiftCashflowHistory } from "@/features/shift/queries";
-
 import { WalletMoney } from "@solar-icons/react-perf/BoldDuotone";
-export default async function CashflowHistory() {
-  const cashflowHistory = await getActiveShiftCashflowHistory();
+import { getCurrentUserAndShiftId, getShiftCashflowHistory } from "@/features/shift/queries";
 
-  if (cashflowHistory === null) return null;
+export default async function CashflowHistory() {
+  const { shiftId } = await getCurrentUserAndShiftId();
+
+  if (!shiftId) return null;
+
+  const cashflowHistory = await getShiftCashflowHistory(shiftId);
 
   if (cashflowHistory.length === 0) {
     return (
