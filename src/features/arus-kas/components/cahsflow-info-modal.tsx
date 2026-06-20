@@ -14,8 +14,6 @@ interface CashflowInfoModalProps {
 export default function CashflowInfoModal({ ref, onClose, cashflow }: CashflowInfoModalProps) {
   const cashflowType = cashflow.type === "INCOME" ? `Pemasukan ${cashflow.label}` : `Pengeluaran ${cashflow.label}`;
 
-  console.log(cashflow.information);
-
   return (
     <Modal ref={ref} className="bg-white p-4 pt-6 rounded-t-2xl">
       <div className="flex flex-col items-center mb-8">
