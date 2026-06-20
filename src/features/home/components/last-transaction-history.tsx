@@ -1,7 +1,7 @@
-import TransactionHistoryCard from "@/features/transaction/components/transaction-history-card";
-import { getLastTransactionsInActiveShift } from "@/features/transaction/queries";
 import Link from "next/link";
+import TransactionHistoryCard from "@/features/transaction/components/transaction-history-card";
 import { Notes } from "@solar-icons/react-perf/BoldDuotone";
+import { getLastTransactionsInActiveShift } from "@/features/shift/queries";
 
 export default async function LastTransactionHistory() {
   const transactions = await getLastTransactionsInActiveShift();
