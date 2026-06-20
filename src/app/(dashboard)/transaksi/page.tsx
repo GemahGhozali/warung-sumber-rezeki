@@ -1,6 +1,6 @@
 import TransactionHistory from "@/features/transaction/components/transaction-history";
 import { Notes } from "@solar-icons/react-perf/BoldDuotone";
-import { getAllTransactionsInActiveShift } from "@/features/transaction/queries";
+import { getAllTransactionsInActiveShift } from "@/features/shift/queries";
 
 export default async function TransaksiPage() {
   const transactions = await getAllTransactionsInActiveShift();
