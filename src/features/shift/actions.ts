@@ -1,11 +1,9 @@
 "use server";
 
 import prisma from "@/libs/prisma";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { getSession } from "@/libs/session";
 import { formatZodError } from "@/libs/zod";
-import { getActiveShift, getActiveShiftId } from "./queries";
+import { getActiveShift, getCurrentUserAndShiftId } from "./queries";
 import { sendErrorResponse, sendSuccessResponse } from "@/utils/response";
 import { ShiftStatus } from "@/generated/prisma/enums";
 import { ServerActionResponse } from "@/types";
@@ -23,12 +21,9 @@ export async function openShiftAction(prevState: ServerActionResponse<OpenShiftI
 
   const { initialCapital } = validation.data;
 
-  const user = await getSession();
-  if (!user) return redirect("/");
-
   try {
-    const hasActiveShift = await getActiveShiftId();
-    if (hasActiveShift) return sendErrorResponse({ message: "Shift anda masih berstatus aktif", code: "SHIFT_ALREADY_OPEN" });
+    const { user, shiftId } = await getCurrentUserAndShiftId();
+    if (shiftId) return sendErrorResponse({ message: "Shift anda masih berstatus aktif", code: "SHIFT_ALREADY_OPEN" });
 
     await prisma.shift.create({ data: { userId: user.id, initialCapital, status: ShiftStatus.OPEN, openingTime: new Date() } });
 

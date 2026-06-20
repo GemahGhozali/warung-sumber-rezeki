@@ -1,11 +1,9 @@
 "use server";
 
 import prisma from "@/libs/prisma";
-import { redirect } from "next/navigation";
-import { getSession } from "@/libs/session";
 import { formatZodError } from "@/libs/zod";
 import { revalidatePath } from "next/cache";
-import { getActiveShiftId } from "@/features/shift/queries";
+import { getCurrentUserAndShiftId } from "@/features/shift/queries";
 import { sendErrorResponse, sendSuccessResponse } from "@/utils/response";
 import { CheckoutTransactionSchema, CheckoutTransactionInput, CartItemInput } from "./schemas";
 import { PaymentMethod } from "@/generated/prisma/enums";
@@ -21,12 +19,9 @@ export async function createTransactionAction(prevState: ServerActionResponse<Tr
 
   const { paymentMethod, totalPayment, cartItems } = validation.data;
 
-  const user = await getSession();
-  if (!user) return redirect("/");
-
   try {
-    const activeShiftId = await getActiveShiftId();
-    if (!activeShiftId) return sendErrorResponse({ message: "Transaksi ditolak. Anda harus membuka shift toko terlebih dahulu", code: "SHIFT_CLOSED" });
+    const { user, shiftId } = await getCurrentUserAndShiftId();
+    if (!shiftId) return sendErrorResponse({ message: "Transaksi ditolak. Anda harus membuka shift toko terlebih dahulu", code: "SHIFT_CLOSED" });
 
     const { totalPrice, transactionDetails } = await generateTransactionDetails(cartItems);
 
@@ -44,12 +39,12 @@ export async function createTransactionAction(prevState: ServerActionResponse<Tr
 
     const transaction = await prisma.transaction.create({
       data: {
+        shiftId,
         paymentMethod,
         totalPrice,
         totalPayment: finalTotalPayment,
         totalChange: calculatedChange,
         userId: user.id,
-        shiftId: activeShiftId,
         transactionDetails: { createMany: { data: transactionDetails } },
       },
     });
