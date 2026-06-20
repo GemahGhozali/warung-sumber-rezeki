@@ -36,6 +36,23 @@ export async function getAllShifts(filter?: DateFilter) {
   }
 }
 
+export async function getCurrentUserAndShiftId() {
+  const user = await getSession();
+  if (!user) return redirect("/");
+
+  try {
+    const activeShift = await prisma.shift.findFirst({
+      where: { userId: user.id, status: ShiftStatus.OPEN },
+      select: { id: true },
+    });
+
+    return { user, shiftId: activeShift?.id };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Gagal mendapatkan data pengguna dan shift");
+  }
+}
+
 export async function getActiveShift() {
   const user = await getSession();
   if (!user) return redirect("/");
@@ -66,25 +83,41 @@ export async function getActiveShift() {
   }
 }
 
-export async function getActiveShiftId() {
-  const user = await getSession();
-  if (!user) return redirect("/");
-
+export async function getLastTransactionsInActiveShift() {
   try {
-    const activeShift = await prisma.shift.findFirst({ where: { userId: user.id, status: ShiftStatus.OPEN }, select: { id: true } });
-    return activeShift?.id ?? null;
+    const { shiftId } = await getCurrentUserAndShiftId();
+    if (!shiftId) return null;
+
+    return prisma.transaction.findMany({
+      where: { shiftId: shiftId },
+      select: { id: true, paymentMethod: true, createdAt: true, totalPrice: true },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    });
   } catch (error) {
     console.error(error);
-    return null;
+    throw new Error("Gagal mendapatkan data riwayat terakhir transaksi");
   }
 }
 
-export async function getActiveShiftCashflowHistory() {
+export async function getAllTransactionsInActiveShift() {
   try {
-    const shiftId = await getActiveShiftId();
-
+    const { shiftId } = await getCurrentUserAndShiftId();
     if (!shiftId) return null;
 
+    return prisma.transaction.findMany({
+      where: { shiftId },
+      select: { id: true, paymentMethod: true, createdAt: true, totalPrice: true },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Gagal mendapatkan data riwayat transaksi");
+  }
+}
+
+export async function getShiftCashflowHistory(shiftId: string) {
+  try {
     const [transactions, incomes, outcomes] = await Promise.all([
       // Mendapatkan semua data transaksi
       prisma.transaction.findMany({ where: { shiftId }, select: { id: true, totalPayment: true, paymentMethod: true, totalChange: true, createdAt: true } }),
@@ -100,7 +133,7 @@ export async function getActiveShiftCashflowHistory() {
     const formattedTransactions = transactions.map((transaction) => ({
       id: transaction.id,
       amount: transaction.totalPayment - transaction.totalChange,
-      type: "INCOME" as const,
+      type: "TRANSACTION" as const,
       label: `Transaksi ${transaction.paymentMethod === "TRANSFER" ? "Transfer" : "Tunai"}`,
       createdAt: transaction.createdAt,
     }));
