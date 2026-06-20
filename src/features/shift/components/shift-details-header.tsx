@@ -1,8 +1,11 @@
+"use client";
+
 import moment from "moment";
 import Link from "next/link";
 import { ArrowLeft, History } from "lucide-react";
 import { ClockCircle } from "@solar-icons/react-perf/BoldDuotone";
 import { ShiftDetails } from "../types";
+import { useRouter } from "next/navigation";
 
 interface ShiftDetailsHeaderProps {
   shift: ShiftDetails;
@@ -21,12 +24,14 @@ function getTimeRange(openingTime: Date, closingTime: Date | null) {
 }
 
 export default function ShiftDetailsHeader({ shift }: ShiftDetailsHeaderProps) {
+  const router = useRouter();
+
   return (
     <>
       <div className="p-4 mb-4 flex justify-between items-center">
-        <Link href="/dashboard/shift" className="bg-white grid place-content-center shrink-0 rounded-full size-10 border border-neutral-300 text-neutral-500">
+        <button onClick={() => router.back()} className="bg-white grid place-content-center shrink-0 rounded-full size-10 border border-neutral-300 text-neutral-500 cursor-pointer">
           <ArrowLeft size={24} />
-        </Link>
+        </button>
         <h5 className="text-xl text-white font-semibold">Detail Riwayat Shift</h5>
         <Link href={`/dashboard/shift/${shift.id}/history`} className="bg-white grid place-content-center shrink-0 rounded-full size-10 border border-neutral-300 text-neutral-500">
           <History size={24} />
