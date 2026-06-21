@@ -15,7 +15,7 @@ export default async function ShiftCashflowHistoryPage({ params }: ShiftCashflow
     <div className="flex flex-col h-full">
       <ShiftCashflowHistoryHeader />
       <div className="p-4 grow">
-        <CashflowHistories cashflow={cashflow} />
+        <CashflowHistories cashflow={cashflow} historyDetailHref={`/dashboard/shift/${id}/history`} />
       </div>
     </div>
   );

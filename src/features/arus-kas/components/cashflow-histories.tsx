@@ -9,9 +9,10 @@ import { ModalHandle } from "@/component/modal";
 
 interface CashflowHistoriesProps {
   cashflow: CashflowHistory[];
+  historyDetailHref: string;
 }
 
-export default function CashflowHistories({ cashflow }: CashflowHistoriesProps) {
+export default function CashflowHistories({ cashflow, historyDetailHref }: CashflowHistoriesProps) {
   if (cashflow.length === 0) {
     return (
       <div className="p-6 flex flex-col h-full justify-center items-center rounded-2xl">
@@ -39,7 +40,7 @@ export default function CashflowHistories({ cashflow }: CashflowHistoriesProps) 
     <>
       <ul className="space-y-4">
         {cashflow.map((history) => (
-          <CahsflowHistoryCard key={history.id} history={history} onClick={() => handleOpenModal(history)} />
+          <CahsflowHistoryCard key={history.id} history={history} historyDetailHref={historyDetailHref} onClick={() => handleOpenModal(history)} />
         ))}
       </ul>
       <CashflowInfoModal ref={cashflowInfoModalRef} onClose={handleCloseModal} cashflow={selectedHistory} />

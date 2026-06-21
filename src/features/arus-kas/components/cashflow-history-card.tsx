@@ -10,9 +10,10 @@ import { RoundArrowLeftDown, RoundArrowRightUp } from "@solar-icons/react-perf/B
 interface CahsflowHistoryCardProps {
   history: CashflowHistory;
   onClick?: () => void;
+  historyDetailHref: string;
 }
 
-export default function CahsflowHistoryCard({ history, onClick }: CahsflowHistoryCardProps) {
+export default function CahsflowHistoryCard({ history, historyDetailHref, onClick }: CahsflowHistoryCardProps) {
   const isIncome = history.type === "INCOME" || history.type === "TRANSACTION";
 
   const containerClassName = "bg-white flex items-center gap-3 p-3 border border-neutral-300 rounded-xl cursor-pointer";
@@ -33,7 +34,7 @@ export default function CahsflowHistoryCard({ history, onClick }: CahsflowHistor
 
   if (history.type === "TRANSACTION") {
     return (
-      <Link href={`/transaksi/${history.id}`} className={containerClassName}>
+      <Link href={`${historyDetailHref}/${history.id}`} className={containerClassName}>
         {CardContent}
       </Link>
     );

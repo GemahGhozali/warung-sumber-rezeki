@@ -19,7 +19,7 @@ export default async function ArusKasPage() {
             <p className="text-neutral-500 text-sm mb-4">Lihat aliran arus kas selama sesi operasional</p>
           </>
         )}
-        <CashflowHistories cashflow={cashflow} />
+        <CashflowHistories cashflow={cashflow} historyDetailHref="/transaksi" />
       </div>
     </div>
   );
